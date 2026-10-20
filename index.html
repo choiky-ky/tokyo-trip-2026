@@ -7,15 +7,14 @@
     <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* 參考圖嘅日系可愛祭典配色 */
-            --bg-color: #F4EFE6; /* 和紙米白色 */
-            --card-bg: #FFFFFF; /* 純白卡片 */
-            --matsuri-red: #D9383A; /* 祭典紅 */
-            --matsuri-blue: #2B4C7E; /* 祭典藍 */
-            --hanabi-gold: #F2A93B; /* 花火黃 */
-            --text-main: #333333; /* 深灰色文字 (易讀) */
-            --text-light: #666666; /* 次要文字 */
-            --line-color: #E0D8C3; /* 淺卡其色線條 */
+            --bg-color: #F4EFE6; 
+            --card-bg: #FFFFFF; 
+            --matsuri-red: #D9383A; 
+            --matsuri-blue: #2B4C7E; 
+            --hanabi-gold: #F2A93B; 
+            --text-main: #333333; 
+            --text-light: #666666; 
+            --line-color: #E0D8C3; 
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'M PLUS Rounded 1c', sans-serif; -webkit-tap-highlight-color: transparent; }
@@ -24,12 +23,10 @@
             background-color: var(--bg-color); 
             color: var(--text-main); 
             padding-bottom: 80px;
-            /* 淡淡嘅和紙紋理感 */
             background-image: radial-gradient(var(--line-color) 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* 網頁最頂嘅祭典格仔圖案 (參考你張圖) */
         body::before {
             content: "";
             position: fixed;
@@ -42,7 +39,6 @@
             z-index: 9999;
         }
 
-        /* 🎆 花火祭 Header 設計 🎆 */
         header {
             background-image: linear-gradient(rgba(43, 76, 126, 0.6), rgba(43, 76, 126, 0.8)), url('header-bg.jpg');
             background-size: cover;
@@ -54,7 +50,7 @@
             font-size: 1.5rem; 
             font-weight: 900; 
             position: sticky; 
-            top: 8px; /* 避開頂部格仔 */
+            top: 8px; 
             z-index: 100;
             border-bottom-left-radius: 25px; 
             border-bottom-right-radius: 25px;
@@ -64,7 +60,6 @@
             letter-spacing: 1px;
         }
 
-        /* 🏮 祭典 Tabs 🏮 */
         .tabs { display: flex; overflow-x: auto; padding: 20px 15px 10px; gap: 12px; scrollbar-width: none; }
         .tabs::-webkit-scrollbar { display: none; }
         .tab-btn {
@@ -85,7 +80,6 @@
         .itinerary-container { padding: 15px 20px 0; }
         .global-btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
         
-        /* 🗺️ 全局按鈕 */
         .global-map-btn {
             display: flex; align-items: center; justify-content: center; 
             background-color: var(--hanabi-gold);
@@ -94,7 +88,6 @@
         }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
 
-        /* 🎂 專屬生日橫額 */
         .bday-banner {
             background: linear-gradient(135deg, #FF9A9E, #FECFEF);
             color: #D90429;
@@ -114,20 +107,17 @@
         }
         @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
 
-        /* 📜 和風備忘錄 */
         .memo-details { background: white; border-radius: 16px; border: 2px dashed var(--matsuri-blue); overflow: hidden; margin-top: 12px; box-shadow: 2px 2px 0px rgba(43, 76, 126, 0.1); }
         .memo-summary { padding: 12px 15px; font-weight: 700; color: var(--matsuri-blue); cursor: pointer; list-style: none; display: flex; align-items: center; font-size: 0.95rem; }
         .memo-summary::-webkit-details-marker { display: none; }
         .memo-content { padding: 15px; font-size: 0.9rem; color: var(--text-main); border-top: 2px dashed var(--line-color); line-height: 1.6; white-space: pre-line; }
         .memo-link { display: inline-block; background-color: #F0F4F8; color: var(--matsuri-blue); text-decoration: none; padding: 4px 10px; border-radius: 10px; font-weight: bold; margin: 4px 0; font-size: 0.85rem; border: 1px solid var(--matsuri-blue); }
 
-        /* ⏳ 時間軸 */
         .timeline-item { display: flex; flex-direction: column; position: relative; margin-bottom: 25px; }
         .transport { display: flex; align-items: center; padding: 10px 0 10px 25px; color: var(--text-light); font-size: 0.9rem; font-weight: 700; position: relative; }
         .transport::before { content: ''; position: absolute; left: 35px; top: -15px; bottom: -15px; width: 3px; background-color: transparent; border-left: 3px dotted var(--matsuri-blue); z-index: -1; }
         .transport-icon { background-color: var(--bg-color); padding: 2px 5px; border-radius: 10px; margin-right: 8px; z-index: 1; border: 1px solid var(--matsuri-blue); }
 
-        /* 🎴 卡片設計 */
         .card { 
             background-color: var(--card-bg); 
             border-radius: 20px; padding: 18px; 
@@ -135,7 +125,6 @@
             border: 2px solid var(--line-color); 
             display: flex; flex-direction: column; position: relative; overflow: hidden; 
         }
-        /* 餐廳卡片特別強調 */
         .card.restaurant { border: 2px solid var(--matsuri-red); box-shadow: 4px 4px 0px rgba(217, 56, 58, 0.1); }
         
         .restaurant-badge-inline { 
@@ -157,29 +146,9 @@
         .day-content.active { display: block; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 📸 相簿上載區 */
-        .photo-diary-section {
-            background: white; border-radius: 24px; padding: 20px; margin-top: 30px; margin-bottom: 20px;
-            border: 2px dashed var(--hanabi-gold); box-shadow: 4px 4px 0px rgba(242, 169, 59, 0.2);
-        }
-        .photo-diary-title { color: var(--matsuri-red); font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; text-align: center; }
-        .upload-btn-wrapper { text-align: center; margin-bottom: 15px; }
-        .upload-input { display: none; }
-        .upload-label {
-            background-color: var(--hanabi-gold); color: #333; padding: 10px 20px; border-radius: 20px;
-            font-weight: 900; display: inline-block; cursor: pointer; border: 2px solid #D99529; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-        .uploaded-photo-wrapper { position: relative; aspect-ratio: 1; }
-        .uploaded-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 2px solid var(--line-color); cursor: pointer; }
-        .delete-photo-btn {
-            position: absolute; top: -5px; right: -5px; background: var(--matsuri-red); color: white; border: none;
-            width: 24px; height: 24px; border-radius: 50%; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        /* Modal & Lightbox */
-        .modal-overlay, .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(3px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
-        .modal-overlay.active, .lightbox-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+        /* Modal 樣式 */
+        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(3px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
         .modal-content { background: var(--bg-color); width: 100%; max-width: 400px; border-radius: 25px; padding: 25px; border: 4px solid var(--matsuri-blue); max-height: 80vh; overflow-y: auto; position: relative; }
         
         /* PDF 專用 Modal 樣式 */
@@ -187,15 +156,22 @@
             display: flex; align-items: center; justify-content: center; 
             background-color: var(--matsuri-blue);
             color: white; text-decoration: none; padding: 12px; border-radius: 16px; font-weight: 700; font-size: 1rem;
-            box-shadow: 0 4px 10px rgba(43, 76, 126, 0.3); border: 2px solid #1D3557; margin-bottom: 20px; cursor: pointer;
+            box-shadow: 0 4px 10px rgba(43, 76, 126, 0.3); border: 2px solid #1D3557; margin-bottom: 20px; cursor: pointer; border: none; width: 100%;
         }
         .pdf-btn:active { transform: scale(0.98); }
         .pdf-modal-content { width: 95%; max-width: 800px; height: 85vh; padding: 15px; display: flex; flex-direction: column; background: white; }
-        .pdf-iframe { flex-grow: 1; width: 100%; border: 2px dashed var(--line-color); border-radius: 15px; }
+        
+        /* 針對 iOS Safari 嘅 PDF 滾動修復 */
+        .pdf-scroll-wrapper {
+            flex-grow: 1;
+            width: 100%;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch; /* 呢句係 iOS 順滑滾動嘅關鍵 */
+            border: 2px dashed var(--line-color);
+            border-radius: 15px;
+        }
+        .pdf-iframe { width: 100%; height: 100%; border: none; }
 
-        .lightbox-overlay { z-index: 2000; background: rgba(0, 0, 0, 0.9); }
-        .lightbox-img { max-width: 95%; max-height: 90%; border-radius: 10px; object-fit: contain; }
-        .lightbox-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 2.5rem; background: none; border: none; cursor: pointer; }
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: white; border: 2px solid var(--text-main); color: var(--text-main); width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
     </style>
 </head>
@@ -233,19 +209,15 @@
         </div>
     </div>
 
-    <!-- PDF 預覽 Modal -->
+    <!-- PDF 預覽 Modal (已加入 iOS 滾動修復) -->
     <div class="modal-overlay" id="pdf-modal">
         <div class="modal-content pdf-modal-content">
             <button class="modal-close-btn" onclick="closeModal('pdf-modal')">✕</button>
             <h3 style="color:var(--matsuri-blue); margin-bottom:15px; margin-top:5px; font-weight:900;">📜 行程 PDF 預覽</h3>
-            <iframe id="pdf-iframe" class="pdf-iframe" src=""></iframe>
+            <div class="pdf-scroll-wrapper">
+                <iframe id="pdf-iframe" class="pdf-iframe" src=""></iframe>
+            </div>
         </div>
-    </div>
-
-    <!-- 圖片放大鏡 Lightbox -->
-    <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
-        <button class="lightbox-close">✕</button>
-        <img id="lightbox-img" class="lightbox-img" src="" alt="放大圖片">
     </div>
 
     <script>
@@ -454,93 +426,6 @@
         ];
 
         // ==========================================
-        // IndexedDB 本地相簿儲存邏輯
-        // ==========================================
-        let db;
-        const request = indexedDB.open("TravelAppDB", 1);
-        request.onupgradeneeded = (e) => {
-            db = e.target.result;
-            if (!db.objectStoreNames.contains("photos")) {
-                db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
-            }
-        };
-        request.onsuccess = (e) => {
-            db = e.target.result;
-            loadAllPhotos();
-        };
-
-        function handlePhotoUpload(dayId, input) {
-            const files = input.files;
-            for(let file of files) {
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                    resizeImage(e.target.result, (resizedBase64) => {
-                        savePhotoToDB(dayId, resizedBase64);
-                    });
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        function resizeImage(base64Str, callback) {
-            const img = new Image();
-            img.src = base64Str;
-            img.onload = () => {
-                const canvas = document.createElement('canvas');
-                const MAX_WIDTH = 800;
-                let width = img.width;
-                let height = img.height;
-                if (width > MAX_WIDTH) {
-                    height *= MAX_WIDTH / width;
-                    width = MAX_WIDTH;
-                }
-                canvas.width = width;
-                canvas.height = height;
-                const ctx = canvas.getContext('2d');
-                ctx.drawImage(img, 0, 0, width, height);
-                callback(canvas.toDataURL('image/jpeg', 0.7));
-            }
-        }
-
-        function savePhotoToDB(dayId, base64) {
-            const tx = db.transaction("photos", "readwrite");
-            const store = tx.objectStore("photos");
-            const req = store.add({ dayId: dayId, data: base64 });
-            req.onsuccess = (e) => {
-                displayPhoto(dayId, e.target.result, base64);
-            };
-        }
-
-        function loadAllPhotos() {
-            const tx = db.transaction("photos", "readonly");
-            const store = tx.objectStore("photos");
-            const req = store.getAll();
-            req.onsuccess = (e) => {
-                e.target.result.forEach(p => displayPhoto(p.dayId, p.id, p.data));
-            };
-        }
-
-        function displayPhoto(dayId, id, base64) {
-            const gallery = document.getElementById(`gallery-${dayId}`);
-            if(!gallery) return;
-            const div = document.createElement('div');
-            div.className = 'uploaded-photo-wrapper';
-            div.innerHTML = `
-                <img src="${base64}" class="uploaded-photo" onclick="openLightbox('${base64}')">
-                <button class="delete-photo-btn" onclick="deletePhoto(${id}, this)">×</button>
-            `;
-            gallery.appendChild(div);
-        }
-
-        function deletePhoto(id, btnElement) {
-            if(!confirm("確定要刪除這張照片嗎？")) return;
-            const tx = db.transaction("photos", "readwrite");
-            const store = tx.objectStore("photos");
-            store.delete(id);
-            btnElement.parentElement.remove();
-        }
-
-        // ==========================================
         // 系統渲染邏輯
         // ==========================================
         const tabsContainer = document.getElementById('tabs-container');
@@ -558,15 +443,14 @@
                 dayDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
                 dayDiv.id = day.id;
 
-                // 🎂 專屬生日橫額 (只在 Day 2 顯示)
                 if (day.id === "day2") {
                     const bdayBanner = document.createElement('div');
                     bdayBanner.className = 'bday-banner';
-                    bdayBanner.innerHTML = `🎉 🎂Cheung Chun BB 生日快樂🎂 🎉`;
+                    bdayBanner.innerHTML = `🎉 Cheung Chun BB 生日快樂🎂 🎉`;
                     dayDiv.appendChild(bdayBanner);
                 }
 
-                // PDF 按鈕
+                // PDF 按鈕 (保留 Modal 預覽)
                 if (day.pdfFile) {
                     const pdfBtn = document.createElement('button');
                     pdfBtn.className = 'pdf-btn';
@@ -629,19 +513,6 @@
                     dayDiv.appendChild(itemDiv);
                 });
 
-                // 加入最底相簿區塊
-                const photoSection = document.createElement('div');
-                photoSection.className = 'photo-diary-section';
-                photoSection.innerHTML = `
-                    <div class="photo-diary-title">📸 今日回憶相簿 🎆</div>
-                    <div class="upload-btn-wrapper">
-                        <input type="file" id="upload-${day.id}" class="upload-input" multiple accept="image/*" onchange="handlePhotoUpload('${day.id}', this)">
-                        <label for="upload-${day.id}" class="upload-label">➕ 上載今日照片</label>
-                    </div>
-                    <div class="photo-gallery" id="gallery-${day.id}"></div>
-                `;
-                dayDiv.appendChild(photoSection);
-
                 daysWrapper.appendChild(dayDiv);
             });
         }
@@ -682,18 +553,7 @@
             }
         }
 
-        function openLightbox(src) {
-            document.getElementById('lightbox-img').src = src;
-            document.getElementById('lightbox').classList.add('active');
-        }
-
-        function closeLightbox() {
-            document.getElementById('lightbox').classList.remove('active');
-        }
-
         renderApp();
     </script>
 </body>
 </html>
-
-
