@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🎆東京生日花火祭之旅🎆</title>
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* 參考圖嘅日系可愛祭典配色 */
+            --bg-color: #F4EFE6; /* 和紙米白色 */
+            --card-bg: #FFFFFF; /* 純白卡片 */
+            --matsuri-red: #D9383A; /* 祭典紅 */
+            --matsuri-blue: #2B4C7E; /* 祭典藍 */
+            --hanabi-gold: #F2A93B; /* 花火黃 */
+            --text-main: #333333; /* 深灰色文字 (易讀) */
+            --text-light: #666666; /* 次要文字 */
+            --line-color: #E0D8C3; /* 淺卡其色線條 */
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'M PLUS Rounded 1c', sans-serif; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            padding-bottom: 80px;
+            /* 淡淡嘅和紙紋理感 */
+            background-image: radial-gradient(var(--line-color) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
+        /* 網頁最頂嘅祭典格仔圖案 (參考你張圖) */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 8px;
+            background: repeating-linear-gradient(to right, 
+                var(--matsuri-blue) 0, var(--matsuri-blue) 15px, 
+                #FFF 15px, #FFF 30px, 
+                var(--matsuri-red) 30px, var(--matsuri-red) 45px, 
+                #FFF 45px, #FFF 60px);
+            z-index: 9999;
+        }
+
+        /* 🎆 花火祭 Header 設計 🎆 */
+        header {
+            background-image: linear-gradient(rgba(43, 76, 126, 0.6), rgba(43, 76, 126, 0.8)), url('header-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; 
+            text-align: center; 
+            padding: 45px 15px 30px; 
+            font-size: 1.5rem; 
+            font-weight: 900; 
+            position: sticky; 
+            top: 8px; /* 避開頂部格仔 */
+            z-index: 100;
+            border-bottom-left-radius: 25px; 
+            border-bottom-right-radius: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); 
+            border-bottom: 4px solid var(--hanabi-gold);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            letter-spacing: 1px;
+        }
+
+        /* 🏮 祭典 Tabs 🏮 */
+        .tabs { display: flex; overflow-x: auto; padding: 20px 15px 10px; gap: 12px; scrollbar-width: none; }
+        .tabs::-webkit-scrollbar { display: none; }
+        .tab-btn {
+            background-color: white; 
+            border: 2px solid var(--matsuri-blue); 
+            color: var(--matsuri-blue);
+            padding: 10px 20px; border-radius: 25px; font-weight: 700; white-space: nowrap; cursor: pointer;
+            transition: all 0.3s ease; box-shadow: 2px 2px 0px var(--matsuri-blue);
+        }
+        .tab-btn.active {
+            background-color: var(--matsuri-red); 
+            color: white; 
+            border: 2px solid var(--matsuri-red);
+            box-shadow: 2px 2px 0px #A31D1F; 
+            transform: translateY(-2px);
+        }
+
+        .itinerary-container { padding: 15px 20px 0; }
+        .global-btn-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 25px; }
+        
+        /* 🗺️ 全局按鈕 */
+        .global-map-btn {
+            display: flex; align-items: center; justify-content: center; 
+            background-color: var(--hanabi-gold);
+            color: #333; text-decoration: none; padding: 15px; border-radius: 20px; font-weight: 900; font-size: 1.1rem;
+            box-shadow: 0 4px 10px rgba(242, 169, 59, 0.3); border: 2px solid #D99529; animation: bounce 2s infinite;
+        }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+
+        /* 🎂 專屬生日橫額 */
+        .bday-banner {
+            background: linear-gradient(135deg, #FF9A9E, #FECFEF);
+            color: #D90429;
+            text-align: center;
+            padding: 18px 15px;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 12px rgba(255, 154, 158, 0.4);
+            border: 3px dashed #FFF;
+            animation: pulse 2s infinite;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.02); } 100% { transform: scale(1); } }
+
+        /* 📜 和風備忘錄 */
+        .memo-details { background: white; border-radius: 16px; border: 2px dashed var(--matsuri-blue); overflow: hidden; margin-top: 12px; box-shadow: 2px 2px 0px rgba(43, 76, 126, 0.1); }
+        .memo-summary { padding: 12px 15px; font-weight: 700; color: var(--matsuri-blue); cursor: pointer; list-style: none; display: flex; align-items: center; font-size: 0.95rem; }
+        .memo-summary::-webkit-details-marker { display: none; }
+        .memo-content { padding: 15px; font-size: 0.9rem; color: var(--text-main); border-top: 2px dashed var(--line-color); line-height: 1.6; white-space: pre-line; }
+        .memo-link { display: inline-block; background-color: #F0F4F8; color: var(--matsuri-blue); text-decoration: none; padding: 4px 10px; border-radius: 10px; font-weight: bold; margin: 4px 0; font-size: 0.85rem; border: 1px solid var(--matsuri-blue); }
+
+        /* ⏳ 時間軸 */
+        .timeline-item { display: flex; flex-direction: column; position: relative; margin-bottom: 25px; }
+        .transport { display: flex; align-items: center; padding: 10px 0 10px 25px; color: var(--text-light); font-size: 0.9rem; font-weight: 700; position: relative; }
+        .transport::before { content: ''; position: absolute; left: 35px; top: -15px; bottom: -15px; width: 3px; background-color: transparent; border-left: 3px dotted var(--matsuri-blue); z-index: -1; }
+        .transport-icon { background-color: var(--bg-color); padding: 2px 5px; border-radius: 10px; margin-right: 8px; z-index: 1; border: 1px solid var(--matsuri-blue); }
+
+        /* 🎴 卡片設計 */
+        .card { 
+            background-color: var(--card-bg); 
+            border-radius: 20px; padding: 18px; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05); 
+            border: 2px solid var(--line-color); 
+            display: flex; flex-direction: column; position: relative; overflow: hidden; 
+        }
+        /* 餐廳卡片特別強調 */
+        .card.restaurant { border: 2px solid var(--matsuri-red); box-shadow: 4px 4px 0px rgba(217, 56, 58, 0.1); }
+        
+        .restaurant-badge-inline { 
+            display: inline-block; background: var(--matsuri-red); color: white; padding: 3px 8px; 
+            border-radius: 10px; font-size: 0.75rem; font-weight: 700;
+            margin-left: 8px; vertical-align: middle; 
+        }
+
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px solid var(--line-color); padding-bottom: 8px; }
+        .time { color: var(--matsuri-blue); font-weight: 900; font-size: 1.3rem; }
+        .duration { font-size: 0.85rem; color: var(--text-light); background: #F0F0F0; padding: 4px 12px; border-radius: 15px; font-weight: 700; }
+        .place-name { font-size: 1.15rem; font-weight: 900; margin-bottom: 15px; color: var(--text-main); line-height: 1.4; display: flex; align-items: center; flex-wrap: wrap; gap: 5px; }
+
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; }
+        .nav-btn { background-color: #F0F4F8; color: var(--matsuri-blue); text-decoration: none; padding: 10px 16px; border-radius: 16px; font-size: 0.9rem; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; border: 2px solid var(--matsuri-blue); }
+        .alt-btn { background-color: #FFF5E6; color: #D99529; border: 2px solid var(--hanabi-gold); }
+
+        .day-content { display: none; animation: fadeIn 0.4s ease; }
+        .day-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* 📸 相簿上載區 */
+        .photo-diary-section {
+            background: white; border-radius: 24px; padding: 20px; margin-top: 30px; margin-bottom: 20px;
+            border: 2px dashed var(--hanabi-gold); box-shadow: 4px 4px 0px rgba(242, 169, 59, 0.2);
+        }
+        .photo-diary-title { color: var(--matsuri-red); font-size: 1.2rem; font-weight: 900; margin-bottom: 15px; text-align: center; }
+        .upload-btn-wrapper { text-align: center; margin-bottom: 15px; }
+        .upload-input { display: none; }
+        .upload-label {
+            background-color: var(--hanabi-gold); color: #333; padding: 10px 20px; border-radius: 20px;
+            font-weight: 900; display: inline-block; cursor: pointer; border: 2px solid #D99529; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .photo-gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .uploaded-photo-wrapper { position: relative; aspect-ratio: 1; }
+        .uploaded-photo { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; border: 2px solid var(--line-color); cursor: pointer; }
+        .delete-photo-btn {
+            position: absolute; top: -5px; right: -5px; background: var(--matsuri-red); color: white; border: none;
+            width: 24px; height: 24px; border-radius: 50%; font-weight: bold; cursor: pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Modal & Lightbox */
+        .modal-overlay, .lightbox-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(3px); z-index: 1000; justify-content: center; align-items: center; padding: 20px; }
+        .modal-overlay.active, .lightbox-overlay.active { display: flex; animation: fadeIn 0.3s ease; }
+        .modal-content { background: var(--bg-color); width: 100%; max-width: 400px; border-radius: 25px; padding: 25px; border: 4px solid var(--matsuri-blue); max-height: 80vh; overflow-y: auto; position: relative; }
+        
+        /* PDF 專用 Modal 樣式 */
+        .pdf-btn {
+            display: flex; align-items: center; justify-content: center; 
+            background-color: var(--matsuri-blue);
+            color: white; text-decoration: none; padding: 12px; border-radius: 16px; font-weight: 700; font-size: 1rem;
+            box-shadow: 0 4px 10px rgba(43, 76, 126, 0.3); border: 2px solid #1D3557; margin-bottom: 20px; cursor: pointer;
+        }
+        .pdf-btn:active { transform: scale(0.98); }
+        .pdf-modal-content { width: 95%; max-width: 800px; height: 85vh; padding: 15px; display: flex; flex-direction: column; background: white; }
+        .pdf-iframe { flex-grow: 1; width: 100%; border: 2px dashed var(--line-color); border-radius: 15px; }
+
+        .lightbox-overlay { z-index: 2000; background: rgba(0, 0, 0, 0.9); }
+        .lightbox-img { max-width: 95%; max-height: 90%; border-radius: 10px; object-fit: contain; }
+        .lightbox-close { position: absolute; top: 20px; right: 20px; color: white; font-size: 2.5rem; background: none; border: none; cursor: pointer; }
+        .modal-close-btn { position: absolute; top: 15px; right: 15px; background: white; border: 2px solid var(--text-main); color: var(--text-main); width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
+    </style>
+</head>
+<body>
+
+    <header>🎆 東京生日花火祭之旅 🎆</header>
+
+    <div class="tabs" id="tabs-container"></div>
+
+    <div class="itinerary-container" id="itinerary-container">
+        <div class="global-btn-group">
+            <a href="https://www.google.com/maps/d/edit?mid=14hMZViKUAopdU3PeVV1ndjdZAnTxbNk&usp=sharing" target="_blank" class="global-map-btn">
+                🗺️ 打開專屬 Google Map 🗺️
+            </a>
+            <details class="memo-details">
+                <summary class="memo-summary">🎟️ 富士箱根 Pass (3日) & 實用連結</summary>
+                <div class="memo-content">
+                    • 包含小田急線（新宿～小田原）一次往返
+                    • 自由搭乘箱根地區8種交通工具
+                    • 自由搭乘富士急巴士及富士急行線
+                    <a href="https://odakyu-global.com/tc/passes/fuji-hakone-pass/" target="_blank" class="memo-link">🔗 富士箱根 Pass 官網</a>
+                    <a href="https://www.fujikyubus.co.jp/shuyu" target="_blank" class="memo-link">🔗 河口湖+箱根3日交通 Pass</a>
+                </div>
+            </details>
+        </div>
+        <div id="days-wrapper"></div>
+    </div>
+
+    <!-- 餐廳後備方案 Modal -->
+    <div class="modal-overlay" id="restaurant-modal">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="closeModal('restaurant-modal')">✕</button>
+            <h3 style="color:var(--matsuri-red); margin-bottom:15px; margin-top:5px; font-weight:900;">🏮 後備餐廳方案</h3>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- PDF 預覽 Modal -->
+    <div class="modal-overlay" id="pdf-modal">
+        <div class="modal-content pdf-modal-content">
+            <button class="modal-close-btn" onclick="closeModal('pdf-modal')">✕</button>
+            <h3 style="color:var(--matsuri-blue); margin-bottom:15px; margin-top:5px; font-weight:900;">📜 行程 PDF 預覽</h3>
+            <iframe id="pdf-iframe" class="pdf-iframe" src=""></iframe>
+        </div>
+    </div>
+
+    <!-- 圖片放大鏡 Lightbox -->
+    <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+        <button class="lightbox-close">✕</button>
+        <img id="lightbox-img" class="lightbox-img" src="" alt="放大圖片">
+    </div>
+
+    <script>
+        // ==========================================
+        // 📝 行程資料
+        // ==========================================
+        const itineraryData = [
+            {
+                id: "day1",
+                date: "10/22 第1天",
+                pdfFile: "itinerary.pdf", 
+                events: [
+                    { time: "00:35", name: "HKG 香港國際機場", duration: "起飛 02:35", mapQuery: "香港國際機場" },
+                    { transport: "✈️ 飛行 04時45分" },
+                    { 
+                        time: "08:20", name: "NRT 成田國際機場", duration: "抵達", mapQuery: "成田國際機場",
+                        memo: "領取實體票券：東京來回車票 (成田機場<>大東京地區)\n<a href='https://www.klook.com/zh-HK/activity/173165-narita-express-n-ex-round-trip-train-ticket-narita-airport-tokyo/' target='_blank' class='memo-link'>🔗 Klook N'EX 劃位連結</a>"
+                    },
+                    { transport: "🚆 乘搭特快列車 02時14分 (成田機場站上車)" },
+                    { time: "11:34", name: "小田原站東口東橫INN", duration: "寄放行李", mapQuery: "小田原站東口東橫INN" },
+                    { transport: "🚶 步行 00時05分" },
+                    { 
+                        time: "12:39", name: "松琴樓 (鰻魚飯)", duration: "停留 01時00分", mapQuery: "松琴樓 小田原", type: "restaurant",
+                        alternatives: [
+                            { name: "城下町 Dosun", desc: "拉麵 (週日公休)", mapQuery: "城下町 Dosun 小田原" },
+                            { name: "Masuya", desc: "營業: 11:30-15:00 / 17:00-23:00", mapQuery: "Masuya 小田原" }
+                        ]
+                    },
+                    { 
+                        transport: "🚌 電車轉接駁車 (約2小時)",
+                        memo: "【前往 Outlet 路線】\n1. 小田原站搭「小田急小田原線」\n2. 出「新松田站」北口，過馬路到 JR「松田站」\n3. 搭 JR 御殿場線到「御殿場站」\n4. 去「乙女口」搭免費接駁巴士"
+                    },
+                    { 
+                        time: "15:49", name: "御殿場 PREMIUM OUTLETS", duration: "停留 04時00分", mapQuery: "御殿場 PREMIUM OUTLETS",
+                        memo: "【Shopping 攻略】\n• 去服務中心掃 QR Code 填問卷拎 5%~10% 電子優惠券\n• 單店消費滿 ¥5500 免 10% 稅\n• 免費接駁車喺 WEST ZONE"
+                    },
+                    { transport: "🚌 園區內" },
+                    { 
+                        time: "20:39", name: "富士山溶岩燒肉 あぶり", duration: "停留 01時00分", mapQuery: "富士山溶岩燒肉 あぶり", type: "restaurant",
+                        alternatives: [
+                            { name: "炭燒爽快漢堡排 (炭焼きさわやか)", desc: "御殿場站附近超人氣漢堡排", mapQuery: "炭焼きさわやか 御殿場" },
+                            { name: "焼肉心時代 御殿場店", desc: "營業: 16:30-23:00", mapQuery: "焼肉心時代 御殿場店" }
+                        ]
+                    },
+                    { transport: "🚶 步行 00時07分" },
+                    { 
+                        time: "21:46", name: "御殿場車站", duration: "搭車回小田原", mapQuery: "御殿場車站",
+                        memo: "【回程接駁車注意】\n尾班車喺 Outlets 營業結束後 40 分鐘發車。\n上車地點：West Zone 巴士總站 1 號月台 (每小時 10, 25, 40, 55 分發車)"
+                    }
+                ]
+            },
+            {
+                id: "day2",
+                date: "10/23 第2天",
+                pdfFile: "itinerary.pdf",
+                events: [
+                    { time: "08:00", name: "小田原站東口東橫INN", duration: "出發", mapQuery: "小田原站東口東橫INN" },
+                    { transport: "🚆 JR御殿場線 (約1小時)" },
+                    { time: "09:30", name: "御殿場車站", duration: "轉車", mapQuery: "御殿場車站" },
+                    { 
+                        transport: "🚌 富士急巴士 (約1.5小時)",
+                        memo: "【御殿場 > 河口湖】\n方案A (Pass包): 一般巴士 A1，09:30 或 10:00 發車。\n方案B (預約制): 特快 G-Liner，11:00 發車 (¥2300)。\n<a href='https://bus.fujikyu.co.jp/zh-CHT/highway/gotemba/' target='_blank' class='memo-link'>🔗 富士急巴士預約網</a>"
+                    },
+                    { time: "11:00", name: "河口湖站", duration: "抵達", mapQuery: "河口湖站", memo: "用 Pass 搭紅線巴士 (班次約每 15 分鐘一班)" },
+                    { transport: "🚶 步行 00時05分" },
+                    { 
+                        time: "11:10", name: "冨士天ぷら いだ天 (炸天婦羅)", duration: "停留 01時00分", mapQuery: "冨士天ぷら いだ天", type: "restaurant",
+                        alternatives: [
+                            { name: "甲州ほうとう小作", desc: "特色餺飥麵", mapQuery: "甲州ほうとう小作 河口湖店" }
+                        ]
+                    },
+                    { transport: "🚌 巴士紅線" },
+                    { time: "12:30", name: "河口湖天上山公園", duration: "搭纜車", mapQuery: "河口湖天上山公園" },
+                    { transport: "🚌 巴士紅線" },
+                    { time: "14:35", name: "大石公園", duration: "拍照打卡", mapQuery: "大石公園" },
+                    { transport: "🚌 巴士紅線" },
+                    { time: "15:31", name: "河口湖楓葉迴廊", duration: "賞楓", mapQuery: "河口湖楓葉迴廊" },
+                    { transport: "🚌 巴士紅線" },
+                    { time: "16:43", name: "產屋崎", duration: "逆富士拍攝點", mapQuery: "產屋崎" },
+                    { transport: "🚌 巴士紅線" },
+                    { time: "17:29", name: "Lawson 河口湖大橋店", duration: "網紅超商", mapQuery: "Lawson 河口湖大橋店" },
+                    { transport: "🚶 步行" },
+                    { 
+                        time: "18:04", name: "河口湖站", duration: "搭車回程", mapQuery: "河口湖站",
+                        memo: "⚠️ 警告：要預 18:00 前走！否則夜晚只有一小時一班車返御殿場！"
+                    },
+                    { transport: "🚌 巴士 (18:00前要走)" },
+                    { time: "19:15", name: "御殿場車站", duration: "轉車", mapQuery: "御殿場車站" },
+                    { transport: "🚆 列車" },
+                    { 
+                        time: "19:59", name: "Jitokkokumiai Odawara (燒雞)", duration: "停留 01時00分", mapQuery: "Jitokkokumiai Odawara", type: "restaurant",
+                        alternatives: [
+                            { name: "heaven meat", desc: "燒肉", mapQuery: "heaven meat 小田原" },
+                            { name: "小田原ホルモン 源屋", desc: "燒肉", mapQuery: "小田原ホルモン 源屋" }
+                        ]
+                    },
+                    { transport: "🚶 步行" },
+                    { time: "21:05", name: "小田原站東口東橫INN", duration: "休息", mapQuery: "小田原站東口東橫INN" }
+                ]
+            },
+            {
+                id: "day3",
+                date: "10/24 第3天",
+                pdfFile: "itinerary.pdf",
+                events: [
+                    { time: "08:00", name: "小田原站東口東橫INN", duration: "出發", mapQuery: "小田原站東口東橫INN" },
+                    { 
+                        transport: "🚆 箱根登山電車轉巴士 (約1小時)",
+                        memo: "【前往蘆之湖鳥居】\n1. 小田原站搭「箱根登山電車」到「箱根湯本站」。\n2. 轉乘「箱根登山巴士」(H, K, R路線) 到「元箱根港」。"
+                    },
+                    { time: "09:00", name: "平和之鳥居", duration: "停留 00時40分", mapQuery: "平和之鳥居 箱根" },
+                    { transport: "🚶 步行 10-15分鐘" },
+                    { 
+                        time: "10:15", name: "蘆之湖遊覽船 元箱根港", duration: "乘海賊船", mapQuery: "元箱根港",
+                        memo: "搭到「桃源台港」睇富士山 (船程 25mins)。"
+                    },
+                    { transport: "🚢 遊覽船 (25分鐘)" },
+                    { 
+                        time: "10:45", name: "桃源台港", duration: "抵達", mapQuery: "桃源台港",
+                        memo: "記得喺元箱根港櫃檯劃定回程車位先！"
+                    },
+                    { 
+                        transport: "🚆 浪漫特快 / 高速巴士回東京",
+                        memo: "【桃源台港 > 新宿】\n方案A: 搭巴士(T路線)到箱根湯本，轉「浪漫特快」(補約 ¥1200 指定席，建議搭 11:38 或 11:59)\n方案B: 小田急高速巴士 (補約 ¥1000-1100，10:55 或 11:25 發車)\n<a href='https://www.hakonenavi.jp/international/tw/status_information' target='_blank' class='memo-link'>🔗 箱根交通狀況</a>"
+                    },
+                    { 
+                        time: "12:30", name: "東京市區 Shopping (午餐)", duration: "自由活動", mapQuery: "新宿", type: "restaurant",
+                        alternatives: [
+                            { name: "Deli and Cafe MITSUKI", desc: "若在箱根吃: 箱根湯本站附近", mapQuery: "Deli and Cafe MITSUKI 箱根" }
+                        ]
+                    },
+                    { transport: "🚆 列車前往台場 (預 16:30 搭車)" },
+                    { 
+                        time: "17:30", name: "KING OF THE PIRATES", duration: "已預約", mapQuery: "KING OF THE PIRATES 台場", type: "restaurant",
+                        memo: "地址: 東京都港区台場1-7-1 アクアシティお台場 5F\n用餐時間: 17:30 - 19:00"
+                    },
+                    { transport: "🚆 列車回小田原 (約2小時)" },
+                    { time: "20:50", name: "小田原站東口東橫INN", duration: "休息", mapQuery: "小田原站東口東橫INN" }
+                ]
+            },
+            {
+                id: "day4",
+                date: "10/25 第4天",
+                pdfFile: "itinerary.pdf",
+                events: [
+                    { time: "08:00", name: "小田原站東口東橫INN", duration: "退房", mapQuery: "小田原站東口東橫INN" },
+                    { transport: "🚆 列車" },
+                    { time: "08:53", name: "箱根水明莊", duration: "寄放行李", mapQuery: "箱根水明莊" },
+                    { 
+                        transport: "🚆 登山電車轉纜車",
+                        memo: "【前往大涌谷】\n從「箱根湯本站」搭「箱根登山電車」至強羅站，轉乘「登山纜車」至早雲山站，再轉「空中纜車」至大涌谷站下車。"
+                    },
+                    { time: "10:05", name: "強羅站", duration: "轉車", mapQuery: "強羅站" },
+                    { transport: "🚠 登山纜車" },
+                    { time: "10:50", name: "箱根登山纜車 早雲山站", duration: "轉車", mapQuery: "早雲山站" },
+                    { transport: "🚠 空中纜車" },
+                    { time: "11:40", name: "箱根纜車 大涌谷站", duration: "吃黑蛋", mapQuery: "大涌谷站" },
+                    { 
+                        transport: "🚠 纜車回程",
+                        memo: "【前往美術館】\n原路搭空中纜車返回早雲山，再轉登山纜車回到強羅站。在強羅站轉乘「箱根登山電車」坐 1 站到「雕刻之森站」。"
+                    },
+                    { 
+                        time: "13:20", name: "餃子中心 (Gyoza Center)", duration: "排隊名店", mapQuery: "餃子中心 箱根", type: "restaurant",
+                        alternatives: [
+                            { name: "田村銀勝亭（田むら銀かつ亭）", desc: "強羅站: 招牌豆腐炸豬排煮", mapQuery: "田むら銀かつ亭" }
+                        ]
+                    },
+                    { transport: "🚶 步行" },
+                    { time: "13:48", name: "箱根雕刻森林美術館", duration: "參觀", mapQuery: "箱根雕刻森林美術館" },
+                    { transport: "🚆 列車回湯本" },
+                    { time: "15:31", name: "箱根水明莊", duration: "Check-in", mapQuery: "箱根水明莊" },
+                    { transport: "🚆 列車前往熱海 (17:00前出發)" },
+                    { 
+                        time: "18:19", name: "熱海車站", duration: "抵達", mapQuery: "熱海車站",
+                        memo: "【和服租賃】\n和服租賃Aki PETIT\n位置：熱海站前（熱海第一大樓 1F），提供行李寄放服務。"
+                    },
+                    { transport: "🚶 步行" },
+                    { 
+                        time: "18:38", name: "熱海銀座商店街 (掃街)", duration: "吃小吃", mapQuery: "熱海銀座商店街", type: "restaurant",
+                        alternatives: [
+                            { name: "熱海布丁", desc: "必吃甜點", mapQuery: "熱海布丁" },
+                            { name: "磯揚げ まる天 熱海店", desc: "現炸魚板小吃，必嚐章魚棒與起司棒", mapQuery: "磯揚げ まる天 熱海店" }
+                        ]
+                    },
+                    { transport: "🚶 步行前往海灘" },
+                    { time: "19:40", name: "熱海陽光海灘 (花火祭)", duration: "20:20-20:40 放煙花", mapQuery: "熱海陽光海灘" },
+                    { transport: "🚆 列車回箱根" },
+                    { time: "21:31", name: "箱根水明莊", duration: "浸溫泉休息", mapQuery: "箱根水明莊" }
+                ]
+            },
+            {
+                id: "day5",
+                date: "10/26 第5天",
+                pdfFile: "itinerary.pdf",
+                events: [
+                    { time: "09:00", name: "箱根水明莊", duration: "09:30前 Checkout", mapQuery: "箱根水明莊" },
+                    { 
+                        transport: "🚆 箱根湯本 > 小田原 > 東京站 > 成田",
+                        memo: "【回程交通選項】\n1. 水明莊步行2分鐘到「箱根湯本站」，搭登山電車到「小田原站」(約15分鐘)。\n2. 小田原 > 東京站 (10:14-10:48)：每小時14分/44分有 Kodama/Hikari 號。\n3. 東京站 > 成田 T1 (11:03-11:57)：搭 N'EX。\n<a href='https://www.kkday.com/zh-hk/transportation/list_page/japan-rail/jp-odawara-rail-to-jp-tokyo-rail?dep_code=JP-2-00004&arr_code=JP-2-00001&dep_date=20261026' target='_blank' class='memo-link'>🔗 KKday 小田原>東京 購票</a>"
+                    },
+                    { time: "11:20", name: "NRT 成田國際機場", duration: "14:20 起飛 (HX605)", mapQuery: "成田國際機場" },
+                    { transport: "✈️ 飛行 04時35分" },
+                    { time: "18:55", name: "HKG 香港國際機場", duration: "平安抵達", mapQuery: "香港國際機場" }
+                ]
+            }
+        ];
+
+        // ==========================================
+        // IndexedDB 本地相簿儲存邏輯
+        // ==========================================
+        let db;
+        const request = indexedDB.open("TravelAppDB", 1);
+        request.onupgradeneeded = (e) => {
+            db = e.target.result;
+            if (!db.objectStoreNames.contains("photos")) {
+                db.createObjectStore("photos", { keyPath: "id", autoIncrement: true });
+            }
+        };
+        request.onsuccess = (e) => {
+            db = e.target.result;
+            loadAllPhotos();
+        };
+
+        function handlePhotoUpload(dayId, input) {
+            const files = input.files;
+            for(let file of files) {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    resizeImage(e.target.result, (resizedBase64) => {
+                        savePhotoToDB(dayId, resizedBase64);
+                    });
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function resizeImage(base64Str, callback) {
+            const img = new Image();
+            img.src = base64Str;
+            img.onload = () => {
+                const canvas = document.createElement('canvas');
+                const MAX_WIDTH = 800;
+                let width = img.width;
+                let height = img.height;
+                if (width > MAX_WIDTH) {
+                    height *= MAX_WIDTH / width;
+                    width = MAX_WIDTH;
+                }
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                callback(canvas.toDataURL('image/jpeg', 0.7));
+            }
+        }
+
+        function savePhotoToDB(dayId, base64) {
+            const tx = db.transaction("photos", "readwrite");
+            const store = tx.objectStore("photos");
+            const req = store.add({ dayId: dayId, data: base64 });
+            req.onsuccess = (e) => {
+                displayPhoto(dayId, e.target.result, base64);
+            };
+        }
+
+        function loadAllPhotos() {
+            const tx = db.transaction("photos", "readonly");
+            const store = tx.objectStore("photos");
+            const req = store.getAll();
+            req.onsuccess = (e) => {
+                e.target.result.forEach(p => displayPhoto(p.dayId, p.id, p.data));
+            };
+        }
+
+        function displayPhoto(dayId, id, base64) {
+            const gallery = document.getElementById(`gallery-${dayId}`);
+            if(!gallery) return;
+            const div = document.createElement('div');
+            div.className = 'uploaded-photo-wrapper';
+            div.innerHTML = `
+                <img src="${base64}" class="uploaded-photo" onclick="openLightbox('${base64}')">
+                <button class="delete-photo-btn" onclick="deletePhoto(${id}, this)">×</button>
+            `;
+            gallery.appendChild(div);
+        }
+
+        function deletePhoto(id, btnElement) {
+            if(!confirm("確定要刪除這張照片嗎？")) return;
+            const tx = db.transaction("photos", "readwrite");
+            const store = tx.objectStore("photos");
+            store.delete(id);
+            btnElement.parentElement.remove();
+        }
+
+        // ==========================================
+        // 系統渲染邏輯
+        // ==========================================
+        const tabsContainer = document.getElementById('tabs-container');
+        const daysWrapper = document.getElementById('days-wrapper');
+
+        function renderApp() {
+            itineraryData.forEach((day, index) => {
+                const btn = document.createElement('div');
+                btn.className = `tab-btn ${index === 0 ? 'active' : ''}`;
+                btn.textContent = day.date;
+                btn.onclick = () => switchTab(day.id, btn);
+                tabsContainer.appendChild(btn);
+
+                const dayDiv = document.createElement('div');
+                dayDiv.className = `day-content ${index === 0 ? 'active' : ''}`;
+                dayDiv.id = day.id;
+
+                // 🎂 專屬生日橫額 (只在 Day 2 顯示)
+                if (day.id === "day2") {
+                    const bdayBanner = document.createElement('div');
+                    bdayBanner.className = 'bday-banner';
+                    bdayBanner.innerHTML = `🎉 🎂Cheung Chun BB 生日快樂🎂 🎉`;
+                    dayDiv.appendChild(bdayBanner);
+                }
+
+                // PDF 按鈕
+                if (day.pdfFile) {
+                    const pdfBtn = document.createElement('button');
+                    pdfBtn.className = 'pdf-btn';
+                    pdfBtn.onclick = () => openPdfModal(day.pdfFile);
+                    pdfBtn.innerHTML = `📜 點擊預覽行程 PDF`;
+                    dayDiv.appendChild(pdfBtn);
+                }
+
+                day.events.forEach(event => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'timeline-item';
+
+                    if (event.transport) {
+                        let transportHTML = `<div class="transport"><span class="transport-icon"></span>${event.transport}</div>`;
+                        if (event.memo) {
+                            transportHTML += `
+                                <details class="memo-details">
+                                    <summary class="memo-summary">📝 查看交通備忘 & 連結</summary>
+                                    <div class="memo-content">${event.memo}</div>
+                                </details>
+                            `;
+                        }
+                        itemDiv.innerHTML = transportHTML;
+                    } else {
+                        const isRestaurant = event.type === 'restaurant';
+                        const mapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(event.mapQuery)}`;
+                        
+                        let cardHTML = `<div class="card ${isRestaurant ? 'restaurant' : ''}">`;
+                        
+                        cardHTML += `
+                            <div class="card-header">
+                                <span class="time">${event.time}</span>
+                                <span class="duration">${event.duration}</span>
+                            </div>
+                            <div class="place-name">
+                                ${event.name}
+                                ${isRestaurant ? `<span class="restaurant-badge-inline">🏮 必食推介</span>` : ''}
+                            </div>
+                            <div class="btn-group">
+                                <a href="${mapLink}" target="_blank" class="nav-btn">📍 Google 導航</a>
+                        `;
+
+                        if (isRestaurant && event.alternatives && event.alternatives.length > 0) {
+                            const altData = encodeURIComponent(JSON.stringify(event.alternatives).replace(/'/g, "%27"));
+                            cardHTML += `<button class="nav-btn alt-btn" onclick="openModal('${altData}')">👀 後備餐廳</button>`;
+                        }
+                        cardHTML += `</div>`;
+
+                        if (event.memo) {
+                            cardHTML += `
+                                <details class="memo-details" style="margin: 12px 0 0;">
+                                    <summary class="memo-summary">📝 查看備忘 & 連結</summary>
+                                    <div class="memo-content">${event.memo}</div>
+                                </details>
+                            `;
+                        }
+                        cardHTML += `</div>`;
+                        itemDiv.innerHTML = cardHTML;
+                    }
+                    dayDiv.appendChild(itemDiv);
+                });
+
+                // 加入最底相簿區塊
+                const photoSection = document.createElement('div');
+                photoSection.className = 'photo-diary-section';
+                photoSection.innerHTML = `
+                    <div class="photo-diary-title">📸 今日回憶相簿 🎆</div>
+                    <div class="upload-btn-wrapper">
+                        <input type="file" id="upload-${day.id}" class="upload-input" multiple accept="image/*" onchange="handlePhotoUpload('${day.id}', this)">
+                        <label for="upload-${day.id}" class="upload-label">➕ 上載今日照片</label>
+                    </div>
+                    <div class="photo-gallery" id="gallery-${day.id}"></div>
+                `;
+                dayDiv.appendChild(photoSection);
+
+                daysWrapper.appendChild(dayDiv);
+            });
+        }
+
+        function switchTab(dayId, clickedBtn) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            clickedBtn.classList.add('active');
+            document.querySelectorAll('.day-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(dayId).classList.add('active');
+            clickedBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+
+        function openModal(dataStr) {
+            const alternatives = JSON.parse(decodeURIComponent(dataStr));
+            const modalBody = document.getElementById('modal-body');
+            modalBody.innerHTML = alternatives.map(alt => {
+                const altMapLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(alt.mapQuery || alt.name)}`;
+                return `
+                <div style="background: white; padding: 15px; border-radius: 16px; margin-bottom: 15px; border: 1px solid var(--line-color);">
+                    <div style="font-weight: 900; color: var(--text-main); margin-bottom: 8px; font-size: 1.1rem;">🏮 ${alt.name}</div>
+                    <div style="font-size: 0.9rem; color: var(--text-light); line-height: 1.5; white-space: pre-line; margin-bottom: 10px;">${alt.desc}</div>
+                    <a href="${altMapLink}" target="_blank" class="nav-btn" style="padding: 6px 12px; font-size: 0.8rem; margin-top: 5px;">📍 導航去呢度</a>
+                </div>
+            `}).join('');
+            document.getElementById('restaurant-modal').classList.add('active');
+        }
+
+        // 打開 PDF Modal
+        function openPdfModal(pdfUrl) {
+            document.getElementById('pdf-iframe').src = pdfUrl;
+            document.getElementById('pdf-modal').classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            if (modalId === 'pdf-modal') {
+                document.getElementById('pdf-iframe').src = ''; 
+            }
+        }
+
+        function openLightbox(src) {
+            document.getElementById('lightbox-img').src = src;
+            document.getElementById('lightbox').classList.add('active');
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+        }
+
+        renderApp();
+    </script>
+</body>
+</html>
+
+
