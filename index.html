@@ -161,18 +161,20 @@
         .pdf-btn:active { transform: scale(0.98); }
         .pdf-modal-content { width: 95%; max-width: 800px; height: 85vh; padding: 15px; display: flex; flex-direction: column; background: white; }
         
-        /* 針對 iOS Safari 嘅 PDF 滾動修復 */
         .pdf-scroll-wrapper {
             flex-grow: 1;
             width: 100%;
             overflow-y: auto;
-            -webkit-overflow-scrolling: touch; /* 呢句係 iOS 順滑滾動嘅關鍵 */
+            -webkit-overflow-scrolling: touch;
             border: 2px dashed var(--line-color);
             border-radius: 15px;
+            background: #f5f5f5;
         }
         .pdf-iframe { width: 100%; height: 100%; border: none; }
 
         .modal-close-btn { position: absolute; top: 15px; right: 15px; background: white; border: 2px solid var(--text-main); color: var(--text-main); width: 35px; height: 35px; border-radius: 50%; font-size: 1.2rem; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center; z-index: 10; }
+        
+        .pdf-fallback-link { display: block; text-align: center; color: var(--matsuri-red); font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; text-decoration: underline; }
     </style>
 </head>
 <body>
@@ -209,11 +211,12 @@
         </div>
     </div>
 
-    <!-- PDF 預覽 Modal (已加入 iOS 滾動修復) -->
+    <!-- PDF 預覽 Modal -->
     <div class="modal-overlay" id="pdf-modal">
         <div class="modal-content pdf-modal-content">
             <button class="modal-close-btn" onclick="closeModal('pdf-modal')">✕</button>
-            <h3 style="color:var(--matsuri-blue); margin-bottom:15px; margin-top:5px; font-weight:900;">📜 行程 PDF 預覽</h3>
+            <h3 style="color:var(--matsuri-blue); margin-bottom:10px; margin-top:5px; font-weight:900;">📜 行程 PDF 預覽</h3>
+            <a id="pdf-fallback-link" class="pdf-fallback-link" href="" target="_blank">⚠️ 如果畫面空白或無法滑動，請點擊這裡打開</a>
             <div class="pdf-scroll-wrapper">
                 <iframe id="pdf-iframe" class="pdf-iframe" src=""></iframe>
             </div>
@@ -450,7 +453,7 @@
                     dayDiv.appendChild(bdayBanner);
                 }
 
-                // PDF 按鈕 (保留 Modal 預覽)
+                // PDF 按鈕
                 if (day.pdfFile) {
                     const pdfBtn = document.createElement('button');
                     pdfBtn.className = 'pdf-btn';
@@ -540,9 +543,19 @@
             document.getElementById('restaurant-modal').classList.add('active');
         }
 
-        // 打開 PDF Modal
+        // 🌟 更新：打開 PDF Modal (使用 Google Viewer 解決 iOS 滾動問題) 🌟
         function openPdfModal(pdfUrl) {
-            document.getElementById('pdf-iframe').src = pdfUrl;
+            // 獲取絕對網址 (因為 Google Viewer 需要完整網址先讀到)
+            const absoluteUrl = new URL(pdfUrl, window.location.href).href;
+            
+            // 將 PDF 網址放入 Google Docs Viewer
+            const googleViewerUrl = `https://docs.google.com/viewer?url=${encodeURIComponent(absoluteUrl)}&embedded=true`;
+            
+            document.getElementById('pdf-iframe').src = googleViewerUrl;
+            
+            // 設定後備連結 (萬一 Google Viewer 載入失敗)
+            document.getElementById('pdf-fallback-link').href = pdfUrl;
+            
             document.getElementById('pdf-modal').classList.add('active');
         }
 
